@@ -5,6 +5,7 @@ import logging.config
 import sys
 import os
 import data_model
+import json
 
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
@@ -45,25 +46,18 @@ def main():
 
     # WARNING: There is a dfferece between channel_id and playlist_id !!! first two letters are different
     channel_id = 'UCaiL2GDNpLYH6Wokkk1VNcg'
+    chennel_name = 'GoogleDevelopers'
+    chennel_name = '@ArjanCodes'
     playlist_id = 'UUaiL2GDNpLYH6Wokkk1VNcg'
 
-    # Create a request object to retrieve playlist items
-    request = youtube.playlistItems().list(
+    request = youtube.channels().list(
         part="snippet",
-        playlistId=playlist_id,
-        maxResults=5
+        forHandle=chennel_name
     )
 
     response = request.execute()
-    res = response['items'][0]
-
-    try:
-        playlist_item = data_model.PlaylistItem(**res)
-    except ValidationError as e:
-        print(e)
-
-    print(playlist_item)
-    logger.debug(playlist_item.snippet.title, extra={'snippet': playlist_item.snippet})
+    pretty_json = json.dumps(response, indent=4)
+    print(pretty_json)
 
     pass
 
