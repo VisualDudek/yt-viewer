@@ -62,7 +62,9 @@ def main():
     except ValidationError as e:
         print(e)
 
-    print(playlist_item)
+    pretty_json = playlist_item.model_dump_json(indent=2)
+
+    print(pretty_json)
     logger.debug(playlist_item.snippet.title, extra={'snippet': playlist_item.snippet})
 
     pass
