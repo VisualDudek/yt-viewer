@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 from pydantic import BaseModel, constr
 from datetime import datetime
 
@@ -41,6 +41,19 @@ class PlaylistItem(BaseModel):
     snippet: Snippet
     contentDetails: Optional[ContentDetails] = None
     status: Optional[Status] = None
+
+class PageInfo(BaseModel):
+    totalResults: int
+    resultsPerPage: int
+
+class PlaylistItemListResponse(BaseModel):
+    kind: str
+    etag: str
+    nextPageToken: Optional[str] = None
+    prevPageToken: Optional[str] = None
+    pageInfo: PageInfo
+    items: List[PlaylistItem]
+
 
 # Example Usage
 example_data = {
