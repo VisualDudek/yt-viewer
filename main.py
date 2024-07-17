@@ -4,9 +4,11 @@ import logging
 import logging.config
 import sys
 import os
+import data_model
 
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
+from pydantic import ValidationError
 
 
 # Load the logger config file
@@ -53,6 +55,20 @@ def main():
     )
 
     response = request.execute()
+    res = response['items'][0]
+
+    try:
+        playlist_item = data_model.PlaylistItem(**res)
+        playlist_response = data_model.PlaylistItemListResponse(**response)
+    except ValidationError as e:
+        print(e)
+
+    pretty_json = playlist_item.model_dump_json(indent=2)
+
+    print(pretty_json)
+    logger.debug(playlist_item.snippet.title, extra={'snippet': playlist_item.snippet})
+
+    pass
 
 
 if __name__ == '__main__':
