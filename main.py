@@ -59,6 +59,7 @@ def main():
 
     try:
         playlist_item = data_model.PlaylistItem(**res)
+        playlist_response = data_model.PlaylistItemListResponse(**response)
     except ValidationError as e:
         print(e)
 
