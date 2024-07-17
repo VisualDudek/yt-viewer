@@ -63,6 +63,7 @@ def main():
         print(e)
 
     print(playlist_item)
+    logger.debug(playlist_item.snippet.title, extra={'snippet': playlist_item.snippet})
 
     pass
 
